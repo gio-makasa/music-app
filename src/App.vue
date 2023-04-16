@@ -39,7 +39,7 @@ export default {
   font-display: swap;
 }
 
-#cover{
+#cover {
   position: absolute;
   width: 100%;
   height: 100vh;

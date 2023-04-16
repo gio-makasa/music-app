@@ -15,12 +15,14 @@ import App from './App.vue'
 const store = createStore({
     state() {
         return {
-            token:
-                'BQATfgRlHgLaJl32Ag_-QM9_CHtNIuy7E-ktkfmJ6tWVWq3-tgzJ7SyER4QeQWO8HAjwLHfpp-I4bGtADRIYEd4xuwO3Fm7WCKDz5A1O7jcNC5mz5fIPPBu5pdhrUMUaSVW3R9ngglCofhI6f22Kq1LVmOm6HQBuvpX3XJdeJcOt4qJ98Q0Yb31NU7KRB-ruujl03G-c5XckDD_v1MaZNnODYWGKLMFVsR5SdlQoR4Uc3VRnGbAn4dAT2Zu_ek8k_Y521brGxnL0Qr70-3xOlHxNm-tksLhSVvcd69bRrSS-RatqQezFH5Xf3rLdUeEesFjQaUYbfsImUU8pweFV8xl2olHP-BNFT6guB8-_6rXK7t8',
+            token: '',
             PremiumModal: null,
         }
     },
     mutations: {
+        getToken(state, token) {
+            state.token = token;
+        },
         showModal(state, payload) {
             state.PremiumModal = payload;
         },

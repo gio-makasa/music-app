@@ -88,6 +88,56 @@ export default {
   },
 
   methods: {
+    getData() {
+      fetch(
+        `https://api.spotify.com/v1/recommendations/available-genre-seeds`,
+        {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+          },
+        }
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.showGenres(data.genres);
+        });
+
+      fetch(`https://api.spotify.com/v1/browse/new-releases`, {
+        headers: {
+          Authorization: `Bearer ${this.$store.state.token}`,
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.newReleases = data.albums.items;
+        });
+
+      fetch(`https://api.spotify.com/v1/browse/categories`, {
+        headers: {
+          Authorization: `Bearer ${this.$store.state.token}`,
+        },
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.categories = data.categories.items;
+        });
+
+      fetch(
+        "https://api.spotify.com/v1/search?query=year%3A2023&type=album&locale=en-US%2Cen%3Bq%3D0.9%2Cka%3Bq%3D0.8&offset=0&limit=20"
+      )
+        .then((response) => {
+          return response.json();
+        })
+        .then((data) => {
+          this.thisYear = data.albums.items;
+        });
+    },
     showGenres(genres) {
       for (let i = 0; i < 8; i++) {
         let r = Math.floor(Math.random() * genres.length);
@@ -96,56 +146,20 @@ export default {
     },
   },
 
-  created() {
-    fetch(`https://api.spotify.com/v1/recommendations/available-genre-seeds`, {
+  beforeCreate() {
+    fetch("https://accounts.spotify.com/api/token", {
       headers: {
-        Authorization: `Bearer ${this.$store.state.token}`,
+        "Content-Type": "application/x-www-form-urlencoded",
       },
+      body: "grant_type=client_credentials&client_id=aa5709451be04b3dbb0fbb268469fb5c&client_secret=a8d3033e4f6245dc9ff02aa084b0ac5c",
+      method: "POST",
     })
       .then((response) => {
         return response.json();
       })
       .then((data) => {
-        this.showGenres(data.genres);
-      });
-
-    fetch(`https://api.spotify.com/v1/browse/new-releases`, {
-      headers: {
-        Authorization: `Bearer ${this.$store.state.token}`,
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        this.newReleases = data.albums.items;
-      });
-
-    fetch(`https://api.spotify.com/v1/browse/categories`, {
-      headers: {
-        Authorization: `Bearer ${this.$store.state.token}`,
-      },
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        this.categories = data.categories.items;
-      });
-
-    fetch(
-      "https://api.spotify.com/v1/search?query=year%3A2023&type=album&locale=en-US%2Cen%3Bq%3D0.9%2Cka%3Bq%3D0.8&offset=0&limit=20",
-      {
-        headers: {
-          Authorization: `Bearer ${this.$store.state.token}`,
-        },
-      }
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        this.thisYear = data.albums.items;
+        this.$store.commit("getToken", data.access_token);
+        this.getData();
       });
   },
 };
