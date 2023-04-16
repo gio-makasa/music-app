@@ -1,0 +1,3 @@
+<template>
+    liked songs
+</template>
