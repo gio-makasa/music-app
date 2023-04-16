@@ -1,4 +1,8 @@
 <template>
+  <div id="cover" v-if="width <= 1000">
+    <h3>mobile version</h3>
+    <h3>coming soon...</h3>
+  </div>
   <NavBar />
   <TheHeader />
   <router-view></router-view>
@@ -19,6 +23,11 @@ export default {
     BuyPremium,
     ThePlayer,
   },
+  data() {
+    return {
+      width: window.innerWidth,
+    };
+  },
 };
 </script>
 
@@ -28,6 +37,14 @@ export default {
   src: url(./assets/fonts/Dancing_Script/DancingScript-VariableFont_wght.ttf)
     format("truetype");
   font-display: swap;
+}
+
+#cover{
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+  z-index: 10;
 }
 
 :root {
