@@ -129,7 +129,12 @@ export default {
         });
 
       fetch(
-        "https://api.spotify.com/v1/search?query=year%3A2023&type=album&locale=en-US%2Cen%3Bq%3D0.9%2Cka%3Bq%3D0.8&offset=0&limit=20"
+        "https://api.spotify.com/v1/search?query=year%3A2023&type=album&locale=en-US%2Cen%3Bq%3D0.9%2Cka%3Bq%3D0.8&offset=0&limit=20",
+        {
+          headers: {
+            Authorization: `Bearer ${this.$store.state.token}`,
+          },
+        }
       )
         .then((response) => {
           return response.json();
